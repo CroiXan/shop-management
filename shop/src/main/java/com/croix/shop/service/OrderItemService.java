@@ -23,6 +23,14 @@ public class OrderItemService {
         return orderItemRepository.findById(id);
     }
 
+    public List<Orderitem> getOrderItemById_OrderAndId_Product(Long id_order, Long id_product){
+        return orderItemRepository.findById_orderAndId_product(id_order,id_product);
+    }
+
+    public List<Orderitem> gOrderitemById_orden(Long id_order){
+        return orderItemRepository.findById_order(id_order);
+    }
+
     public Orderitem saveOrderItem(Orderitem orderitem){
         return orderItemRepository.save(orderitem);
     }

@@ -6,15 +6,31 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_order;
+
+    @NotNull(message = "Valor create_date no puede ser nulo")
     private LocalDate create_date;
+
+    @NotNull(message = "Valor id_user no puede ser nulo")
+    @Min(value = 0, message = "Valor id_user no puede ser negativo")
+    @Max(value = 99999999, message = "Valor id_user no puede ser superior a 99999999")
     private Long id_user;
+
+    @NotNull(message = "Valor total no puede ser nulo")
+    @Max(value = 999999999, message = "Valor total no puede ser superior a 999999999")
     private Long total;
+
+    @NotNull(message = "Valor status no puede ser nulo")
+    @Size(min = 1, max = 50, message = "name debe tener entre 1 y 50 caracteres")
     private String status;
     
     public Long getId_order() {

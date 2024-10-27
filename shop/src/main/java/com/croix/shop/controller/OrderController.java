@@ -1,5 +1,6 @@
 package com.croix.shop.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,7 @@ public class OrderController {
     
     @PostMapping
     public ResponseEntity<Orders> createOrder(@Valid @RequestBody Orders order) {
+        order.setCreate_date(LocalDate.now());
         Orders newOrder = orderService.saveOrder(order);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
