@@ -38,7 +38,7 @@ public class OrderItemController {
     private OrderItemService orderItemService;
 
     @PostMapping("/add")
-    public ResponseEntity<Orderitem> createOrderItem(@Valid @RequestBody ItemRequest itemRequest) {
+    public ResponseEntity<Orderitem> addOrderItem(@Valid @RequestBody ItemRequest itemRequest) {
         orderService.getOrderById(itemRequest.getId_order())
             .orElseThrow(() -> new ResourceNotFoundException("Orden con ID "+ itemRequest.getId_product() +" no se encuentra"));
         
@@ -55,6 +55,30 @@ public class OrderItemController {
             orderItem.setId_product(itemRequest.getId_product());
             orderItem.setAmount(1L);
             orderItem.setSku(product.getSku());
+        }
+
+        orderItemService.saveOrderItem(orderItem);
+
+        return new ResponseEntity<>(orderItem, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Orderitem> deletederItem(@Valid @RequestBody ItemRequest itemRequest) {
+        orderService.getOrderById(itemRequest.getId_order())
+            .orElseThrow(() -> new ResourceNotFoundException("Orden con ID "+ itemRequest.getId_product() +" no se encuentra"));
+        
+        Orderitem orderItem = new Orderitem();
+        List<Orderitem> orderItemList = orderItemService.getOrderItemById_OrderAndId_Product(itemRequest.getId_order(), itemRequest.getId_product());
+        
+        if (orderItemList.size() > 0) {
+            orderItem = orderItemList.getFirst();
+           
+            if(orderItem.getAmount() <= 1){
+                orderItemService.deleteOrderItemById(orderItem.getId_orderitem());
+            }else{
+                orderItem.setAmount(orderItem.getAmount() - 1);
+                orderItemService.saveOrderItem(orderItem);
+            }
         }
 
         return new ResponseEntity<>(orderItem, HttpStatus.CREATED);
