@@ -37,6 +37,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Orders> createOrder(@Valid @RequestBody Orders order) {
         order.setCreate_date(LocalDate.now());
+        order.setTotal(0L);
         Orders newOrder = orderService.saveOrder(order);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }

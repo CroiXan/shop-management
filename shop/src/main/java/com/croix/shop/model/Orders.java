@@ -17,7 +17,6 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_order;
 
-    @NotNull(message = "Valor create_date no puede ser nulo")
     private LocalDate create_date;
 
     @NotNull(message = "Valor id_user no puede ser nulo")

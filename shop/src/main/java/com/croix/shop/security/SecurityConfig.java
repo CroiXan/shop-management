@@ -54,13 +54,13 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         UserDetails user = User.builder()
                 .username("user")
-                .password("Nb2Kb,mZT9")
+                .password("{noop}Nb2Kb,mZT9")
                 .roles("USER")
                 .build();
 
         UserDetails admin = User.builder()
                 .username("admin")
-                .password("WpCsGw3jp*")
+                .password("{noop}WpCsGw3jp*")
                 .roles("ADMIN")
                 .build();
 
