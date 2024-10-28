@@ -4,15 +4,34 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Orderitem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_orderitem;
+
+    @NotNull(message = "Valor id_order no puede ser nulo")
+    @Min(value = 0, message = "Valor id_order no puede ser negativo")
+    @Max(value = 99999999, message = "Valor id_order no puede ser superior a 99999999")
     private Long id_order;
+
+    @NotNull(message = "Valor id_product no puede ser nulo")
+    @Min(value = 0, message = "Valor id_product no puede ser negativo")
+    @Max(value = 99999999, message = "Valor id_product no puede ser superior a 99999999")
     private Long id_product;
+
+    @NotNull(message = "Valor SKU no puede ser nulo")
+    @Size(min = 1, max = 100, message = "SKU debe tener entre 1 y 100 caracteres")
     private String sku;
+
+    @NotNull(message = "Valor amount no puede ser nulo")
+    @Min(value = 0, message = "Valor amount no puede ser negativo")
+    @Max(value = 999999999, message = "Valor amount no puede ser superior a 999999999")
     private Long amount;
     
     public Long getId_orderitem() {
