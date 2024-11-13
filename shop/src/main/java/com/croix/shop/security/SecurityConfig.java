@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -29,6 +31,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/shop/product/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/shop/order/**","/shop/item/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/shop/order/**","/shop/item/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/shop/order/**").hasRole("ADMIN")
@@ -40,6 +43,20 @@ public class SecurityConfig {
                 )
                 .httpBasic(withDefaults())
                 .build();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") 
+                        .allowedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(true);
+            }
+        };
     }
 
     @Bean
