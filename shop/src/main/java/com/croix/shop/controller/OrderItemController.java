@@ -63,8 +63,11 @@ public class OrderItemController {
             orderItem.setSku(product.getSku());
         }
 
-        order.setTotal( order.getTotal() + Math.round(product.getPrice() * discount) );
-        orderService.saveOrder(order);
+        orderService.saveOrder(
+            order.toBuilder()
+                .setTotal(order.getTotal() + Math.round(product.getPrice() * discount))
+                .build()
+        );
         orderItemService.saveOrderItem(orderItem);
 
         return new ResponseEntity<>(orderItem, HttpStatus.CREATED);
@@ -100,8 +103,11 @@ public class OrderItemController {
             throw new ResourceNotFoundException("Orden ID "+ itemRequest.getId_order() +" no cuenta con Producto ID "+ itemRequest.getId_product());
         }
 
-        order.setTotal( order.getTotal() - Math.round(product.getPrice() * discount) );
-        orderService.saveOrder(order);
+        orderService.saveOrder(
+            order.toBuilder()
+                .setTotal(order.getTotal() - Math.round(product.getPrice() * discount))
+                .build()
+        );
 
         if(orderItem.getAmount() <= 1){
             return ResponseEntity.noContent().build();

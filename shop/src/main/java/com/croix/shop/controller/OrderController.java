@@ -36,9 +36,13 @@ public class OrderController {
     
     @PostMapping
     public ResponseEntity<Orders> createOrder(@Valid @RequestBody Orders order) {
-        order.setCreate_date(LocalDate.now());
-        order.setTotal(0L);
-        Orders newOrder = orderService.saveOrder(order);
+        Orders buildOrder = new Orders.Builder()
+            .setId_user(order.getId_user())
+            .setCreate_date(LocalDate.now())
+            .setTotal(0L)
+            .setStatus("Creado")
+            .build();
+        Orders newOrder = orderService.saveOrder(buildOrder);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
     
@@ -61,10 +65,12 @@ public class OrderController {
     public ResponseEntity<Orders> updateOrder(@PathVariable Long id, @Valid @RequestBody Orders updatedOrder ) {
         Orders order = orderService.getOrderById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Orden con ID "+ id +" no se encuentra"));
-        order.setStatus(updatedOrder.getStatus());
-        order.setTotal(updatedOrder.getTotal());
-        order.setId_user(updatedOrder.getId_user());
-        Orders orderResult = orderService.saveOrder(order);
+        Orders setBuildOrder = order.toBuilder()
+            .setStatus(updatedOrder.getStatus())
+            .setTotal(updatedOrder.getTotal())
+            .setId_user(updatedOrder.getId_user())
+            .build();
+        Orders orderResult = orderService.saveOrder(setBuildOrder);
         return ResponseEntity.ok(orderResult);
     }
 
