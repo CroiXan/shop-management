@@ -45,7 +45,7 @@ public class OrderItemController {
         Products product = catalogService.getProductById(itemRequest.getId_product())
             .orElseThrow(() -> new ResourceNotFoundException("Producto con ID "+ itemRequest.getId_product() +" no se encuentra"));
         double discount = 1;
-        Orderitem orderItem = new Orderitem();
+        Orderitem orderItem = new Orderitem.Builder().build();
         List<Orderitem> orderItemList = orderItemService.getOrderItemById_OrderAndId_Product(itemRequest.getId_order(), itemRequest.getId_product());
 
         if(product.getDiscount() > 0){
@@ -55,12 +55,16 @@ public class OrderItemController {
         
         if (orderItemList.size() > 0) {
             orderItem = orderItemList.getFirst();
-            orderItem.setAmount(orderItem.getAmount() + 1);
+            orderItem = orderItem.toBuilder()
+                            .setAmount(orderItem.getAmount() + 1)
+                            .build();
         }else{
-            orderItem.setId_order(itemRequest.getId_order());
-            orderItem.setId_product(itemRequest.getId_product());
-            orderItem.setAmount(1L);
-            orderItem.setSku(product.getSku());
+            orderItem = orderItem.toBuilder()
+                            .setId_order(itemRequest.getId_order())
+                            .setId_product(itemRequest.getId_product())
+                            .setAmount(1L)
+                            .setSku(product.getSku())
+                            .build();
         }
 
         orderService.saveOrder(
@@ -80,7 +84,7 @@ public class OrderItemController {
         Products product = catalogService.getProductById(itemRequest.getId_product())
             .orElseThrow(() -> new ResourceNotFoundException("Producto con ID "+ itemRequest.getId_product() +" no se encuentra"));
         double discount = 1;
-        Orderitem orderItem = new Orderitem();
+        Orderitem orderItem = new Orderitem.Builder().build();
         List<Orderitem> orderItemList = orderItemService.getOrderItemById_OrderAndId_Product(itemRequest.getId_order(), itemRequest.getId_product());
         
 
@@ -96,7 +100,9 @@ public class OrderItemController {
             if(orderItem.getAmount() <= 1){
                 orderItemService.deleteOrderItemById(orderItem.getId_orderitem());
             }else{
-                orderItem.setAmount(orderItem.getAmount() - 1);
+                orderItem = orderItem.toBuilder()
+                                .setAmount(orderItem.getAmount() - 1)
+                                .build();
                 orderItemService.saveOrderItem(orderItem);
             }
         } else {
