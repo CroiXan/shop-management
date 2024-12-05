@@ -1,6 +1,5 @@
 com\croix\shop\repository\OrderRepository.class
 com\croix\shop\security\SecurityConfig.class
-com\croix\shop\security\SecurityConfig$1.class
 com\croix\shop\ShopApplication.class
 com\croix\shop\model\Orderitem.class
 com\croix\shop\model\Products.class
