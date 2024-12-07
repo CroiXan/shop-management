@@ -30,4 +30,8 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+    public List<Orders> findByIdUser(Long id){
+        return orderRepository.findById_user(id);
+    }
+
 }

@@ -49,8 +49,14 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<Orders> getOrder(@PathVariable Long id) {
         Orders order = orderService.getOrderById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Ordn con ID "+ id +" no se encuentra"));
+            .orElseThrow(() -> new ResourceNotFoundException("Orden con ID "+ id +" no se encuentra"));
         return ResponseEntity.ok(order);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Orders>> getOrderByUser(@PathVariable Long id) {
+        List<Orders> orderList = orderService.findByIdUser(id);
+        return ResponseEntity.ok(orderList);
     }
 
     @DeleteMapping("/{id}")
