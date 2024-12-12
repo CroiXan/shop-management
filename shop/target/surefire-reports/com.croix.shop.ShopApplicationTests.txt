@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.croix.shop.ShopApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.645 s -- in com.croix.shop.ShopApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.698 s -- in com.croix.shop.ShopApplicationTests
