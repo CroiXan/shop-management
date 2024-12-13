@@ -1,1 +1,6 @@
+com\croix\shop\service\CatalogServiceTests.class
+com\croix\shop\controller\OrderControllerTests.class
+com\croix\shop\service\OrderItemServiceTests.class
+com\croix\shop\service\OrderServiceTests.class
 com\croix\shop\ShopApplicationTests.class
+com\croix\shop\controller\OrderItemControllerTests.class
